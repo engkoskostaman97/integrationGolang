@@ -26,7 +26,7 @@ export default function ModalRegist({
 
   const [message, setMessage] = useState(null);
   const [form, setForm] = useState({
-    name: "",
+    fullname: "",
     email: "",
     password: "",
     gender: "",
@@ -34,7 +34,7 @@ export default function ModalRegist({
     address: "",
   });
 
-  const { name, email, password, gender, phone, address } = form;
+  const { fullname, email, password, gender, phone, address } = form;
 
   const handleChange = (e) => {
     setForm({
@@ -62,40 +62,37 @@ export default function ModalRegist({
 
       // Insert data user to database
       const response = await API.post("/register", body, config)
-      console.log(response)
-      // Notification
-      if (response.data.code == 200) {
-        const alert = (
-          <Alert variant="success" className="py-1">
-            Success
-          </Alert>
-        );
-        console.log("success bro")
-        setMessage(alert);
-        setForm({
-          name: "",
-          email: "",
-          password: "",
-          gender: "",
-          phone: "",
-          address: "",
-        });
-      } else {
-        console.log("failed bro")
-        const alert = (
-          <Alert variant="danger" className="py-1">
-            Failed
-          </Alert>
-        );
-      }
-      setMessage(alert);
+      // console.log(response)
+      // if (response.data.data.code == 200) {
+      //   // Send data to useContext
+      //   dispatch({
+      //     type: " SUCCESS",
+      //     payload: response.data.data,
+      //   });
+      //   // Status check
+      //   if (response.data.data.status === "user") {
+      //     Navigate("/")
+      //   }
+
+      //   const alert = (
+      //     <Alert variant="success" className="py-1">
+      //       Register success
+      //     </Alert>
+      //   );
+      //   setMessage(alert);
+      // } else {
+      //   const alert = (
+      //     <Alert variant="danger" className="py-1">
+      //       Register failed
+      //     </Alert>
+      //   );
+      //   console.log("else")
+
+      //   setMessage(alert);
+      // }
     } catch (error) {
-      console.log("catch bro")
-      const alert = (
-        <Alert variant="danger" className="py-1">
-          Failed
-        </Alert>
-      );
+
+      console.log("catch")
       setMessage(alert);
       console.log(error);
     }
@@ -104,6 +101,7 @@ export default function ModalRegist({
     <Modal
       size="md"
       show={registerShow}
+
       onHide={() => setRegisterShow(false)}
       centered
     >
@@ -142,9 +140,9 @@ export default function ModalRegist({
               />
               <input
                 type="text"
-                placeholder="Full Name"
-                name="name"
-                value={name}
+                placeholder="FullName"
+                name="fullname"
+                value={fullname}
                 onChange={handleChange}
                 className="px-3 py-2 mt-3"
               />
@@ -185,7 +183,7 @@ export default function ModalRegist({
               </label>
             </div>
             <div className="d-grid gap-2 mt-3">
-              <button type="submit" className="btnRegister" >Register</button>
+              <button type="submit" className="btnRegister" onClick={registerHere}  >Register</button>
               <p className="warning">
                 Already have an account?
                 <button onClick={registerHere} className="btnHere">

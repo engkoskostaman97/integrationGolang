@@ -1,5 +1,5 @@
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { Link, useNavigate as navigate } from "react-router-dom";
+import { Link, useNavigate as navigate, useNavigate } from "react-router-dom";
 import Logo from "../assets/dumbflix-logo.png";
 import UserBlank from "../assets/blank-profile.png";
 import Profil from "../assets/profile.png";
@@ -7,13 +7,19 @@ import Pay from "../assets/bill.png";
 import LogoutIcon from "../assets/logout.svg";
 import Login from "./ModalLogin";
 import Register from "./ModalRegist";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { UserContext } from '../context/userContext'
+import { useContext } from "react";
 
 function NavbarUser() {
   const [isLogin, setIsLogin] = useState(true);
   const [loginShow, setLoginShow] = useState(false);
   const [registerShow, setRegisterShow] = useState(false);
+  const user = localStorage.getItem('token')
+  const [show, setShow] = useState(false);
 
+  const [state, dispatch] = useContext(UserContext)
   const registerHere = (e) => {
     e.preventDefault();
     setRegisterShow(false);
@@ -25,6 +31,19 @@ function NavbarUser() {
     setLoginShow(false);
     setRegisterShow(true);
   };
+
+  const Navigate = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    Navigate('/')
+  }
+
+  useEffect(() => {
+    if (user) {
+      setIsLogin(true)
+    } else setIsLogin(false)
+  }, [state, handleLogout]);
   return (
     <div>
       <Navbar
@@ -106,7 +125,7 @@ function NavbarUser() {
                     style={{ backgroundColor: "grey", color: "white" }}
                   />
                   <NavDropdown.Item
-                    onClick={() => setIsLogin(false)}
+                    href="#" onClick={handleLogout}
                     style={{ backgroundColor: "black", color: "white" }}
                   >
                     <img
@@ -148,7 +167,7 @@ function NavbarUser() {
         registerShow={registerShow}
         setRegisterShow={setRegisterShow}
       />
-    </div>
+    </div >
   );
 }
 

@@ -54,22 +54,10 @@ export default function Listtrans() {
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
-
                                 </Nav>
-
-
-
                             </Navbar.Collapse>
-
                         </Container>
-
-
                     </Navbar>
-
-
-
-
-
                 </Navbar.Brand>
             </Container>
         </Navbar >

@@ -54,12 +54,14 @@ func (h *handlerAuth) Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user := models.User{
-		FullName: request.Name,
-		Email:    request.Email,
-		Password: password,
-		Gender:   request.Gender,
-		Phone:    request.Phone,
-		Address:  request.Address,
+		FullName:  request.FullName,
+		Email:     request.Email,
+		Password:  password,
+		Gender:    request.Gender,
+		Phone:     request.Phone,
+		Address:   request.Address,
+		Subscribe: "false",
+		Status:    "user",
 	}
 
 	fmt.Println(user)
@@ -86,6 +88,7 @@ func convertUserAuthResponse(u models.User) models.UserAuthResponse {
 		Phone:     u.Phone,
 		Address:   u.Address,
 		Subscribe: u.Subscribe,
+		Status:    u.Status,
 	}
 }
 
@@ -138,14 +141,41 @@ func (h *handlerAuth) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	loginResponse := authdto.LoginResponse{
-		ID:    user.ID,
-		Name:  user.FullName,
-		Email: user.Email,
-		Token: token,
+		ID:       user.ID,
+		FullName: user.FullName,
+		Email:    user.Email,
+		Status:   user.Status,
+		Token:    token,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	response := dto.SuccessResult{Code: http.StatusOK, Data: loginResponse}
 	json.NewEncoder(w).Encode(response)
 
+}
+func (h *handlerAuth) CheckAuth(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	userInfo := r.Context().Value("userInfo").(jwt.MapClaims)
+	userId := int(userInfo["id"].(float64))
+
+	// Check User by Id
+	user, err := h.AuthRepository.Getuser(userId)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+
+	CheckAuthResponse := authdto.CheckAuthResponse{
+		Id:       user.ID,
+		FullName: user.FullName,
+		Email:    user.Email,
+		Status:   user.Status,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	response := dto.SuccessResult{Code: http.StatusOK, Data: CheckAuthResponse}
+	json.NewEncoder(w).Encode(response)
 }

@@ -74,13 +74,14 @@ func (h *handlerUser) CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user := models.User{
-		FullName:  request.Fullname,
+		FullName:  request.FullName,
 		Email:     request.Email,
 		Password:  request.Password,
 		Gender:    request.Gender,
 		Phone:     request.Phone,
 		Address:   request.Address,
 		Subscribe: request.Subscribe,
+		Status:    request.Status,
 	}
 
 	data, err := h.UserRepository.CreateUser(user)
@@ -115,8 +116,8 @@ func (h *handlerUser) UpdateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if request.Fullname != "" {
-		user.FullName = request.Fullname
+	if request.FullName != "" {
+		user.FullName = request.FullName
 	}
 
 	if request.Email != "" {
@@ -184,5 +185,6 @@ func convertUserResponse(u models.User) models.UserResponse {
 		Phone:     u.Phone,
 		Address:   u.Address,
 		Subscribe: u.Subscribe,
+		Status:    u.Status,
 	}
 }

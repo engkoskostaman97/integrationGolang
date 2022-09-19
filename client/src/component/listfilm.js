@@ -1,14 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import dataListfilm from '../dummyData/datalistfilm.js';
 import datamovies from '../dummyData/datamovies.js';
 import { Row, Col } from 'react-bootstrap';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+// Import useMutation
+import { useMutation } from "react-query";
 
+// Import API config
+import { API } from "../config/api";
 
 function Listfilm(props) {
+    console.clear();
+
+    let Navigate = useNavigate();
+    let api = API();
+
+    const [category, setCategory] = useState("");
+
+    const handleChange = (e) => {
+        setCategory(e.target.value);
+    };
+
+    const handleSubmit = useMutation(async (e) => {
+        try {
+            e.preventDefault();
+
+            // Data body
+            const body = JSON.stringify({ name: category });
+
+            // Configuration
+            const config = {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body,
+            };
+            console.log(config);
+
+            // Insert category data
+            const response = await API.post("/category", config);
+
+            console.log(response);
+
+            Navigate("/listfilms");
+        } catch (error) {
+            console.log(error);
+        }
+    });
 
     return (
         <div>

@@ -1,5 +1,9 @@
-import React from "react";
-import { Modal, Alert } from "react-bootstrap";
+import React, { useContext, useState } from "react";
+import { Modal, Alert, FormText } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from 'react-query';
+import { API } from "../config/api";
+import { UserContext } from "../context/userContext";
 
 export default function ModalLogin({
   loginShow,
@@ -15,6 +19,90 @@ export default function ModalLogin({
       x.type = "password";
     }
   }
+  let Navigate = useNavigate();
+  let api = API();
+
+  const [state, dispatch] = useContext(UserContext);
+
+  const [message, setMessage] = useState(null);
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = form;
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = useMutation(async (e) => {
+    try {
+      e.preventDefault();
+
+      // Data body
+      const body = JSON.stringify(form);
+
+      // Configuration
+      const config = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: body,
+      };
+
+      // Insert data for login process
+      const response = await API.post("/login", body, config);
+
+      console.log(response);
+
+      // Checking process
+      if (response.data.code == 200) {
+        // Send data to useContext
+        dispatch({
+          type: "LOGIN_SUCCESS",
+          payload: response.data.data,
+        });
+
+        // Status check
+        if (response.data.data.status === "admin") {
+          Navigate("/admin")
+        } else {
+          Navigate("/movies");
+        }
+
+        const alert = (
+          <Alert variant="success" className="py-1">
+            Login success
+          </Alert>
+        );
+        setMessage(alert);
+      } else {
+        const alert = (
+          <Alert variant="danger" className="py-1">
+            Login failed
+          </Alert>
+        );
+        console.log("else")
+
+        setMessage(alert);
+      }
+    } catch (error) {
+      const alert = (
+        <Alert variant="danger" className="py-1">
+          Login failed
+        </Alert>
+      );
+      console.log("catch")
+      setMessage(alert);
+      console.log(error);
+    }
+  });
+
   return (
     <Modal
       size="md"
@@ -35,15 +123,15 @@ export default function ModalLogin({
           >
             Login
           </div>
-          {/* {message && message} */}
-          <form>
+          {message && message}
+          <form onSubmit={(e) => handleSubmit.mutate(e)}>
             <div className="mt-3 form">
               <input
                 type="email"
                 placeholder="Email"
-                // value={email}
+                value={email}
                 name="email"
-                // onChange={handleChange}
+                onChange={handleChange}
                 className="px-3 py-2 mt-3"
               />
               <input
@@ -51,8 +139,8 @@ export default function ModalLogin({
                 placeholder="Password"
                 name="password"
                 id="ShowPass"
-                // value={password}
-                // onChange={handleChange}
+                value={password}
+                onChange={handleChange}
                 className="px-3 py-2 mt-3"
               />
             </div>
@@ -68,7 +156,7 @@ export default function ModalLogin({
               </label>
             </div>
             <div className="d-grid gap-2 mt-3">
-              <button className="btn1" onClick={() => setIsLogin(true)}>
+              <button className="btn1" onClick={() => setIsLogin(false)}>
                 Login
               </button>
               <p className="warning">

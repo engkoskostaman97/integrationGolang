@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from 'react'
 import avatar from "../assets/blank-profile.png";
 import name from "../assets/profile/name.png";
 import email from "../assets/profile/email.png";
@@ -6,10 +6,16 @@ import status from "../assets/profile/status.png";
 import gender from "../assets/profile/gender.png";
 import phone from "../assets/profile/phone.png";
 import address from "../assets/profile/address.png";
+import { UserContext } from '../context/userContext';
+
 
 function Profile() {
-  const title = "Profile";
-  document.title = "Dumbflix | " + title;
+
+  const [state] = useContext(UserContext);
+
+  console.log("ini state", state);
+
+
   return (
     <div className="profile-container">
       <div className="profile-card">
@@ -23,7 +29,7 @@ function Profile() {
             </div>
             <div className="profile-details">
               <span style={{ fontSize: "18px", fontWeight: "bold" }}>
-                Aditya Rizki Gerwawan
+                {state.user.fullname}
               </span>
               <span>Fullname</span>
             </div>
@@ -34,7 +40,7 @@ function Profile() {
             </div>
             <div className="profile-details">
               <span style={{ fontSize: "18px", fontWeight: "bold" }}>
-                aditya.rizki0501@gmail.com
+                {state.user.email}
               </span>
               <span>Email</span>
             </div>
