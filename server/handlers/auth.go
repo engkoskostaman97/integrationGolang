@@ -146,6 +146,9 @@ func (h *handlerAuth) Login(w http.ResponseWriter, r *http.Request) {
 		Email:    user.Email,
 		Status:   user.Status,
 		Token:    token,
+		Gender:   user.Gender,
+		Phone:    user.Phone,
+		Address:  user.Address,
 	}
 
 	w.Header().Set("Content-Type", "application/json")

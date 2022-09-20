@@ -62,7 +62,7 @@ function Profile() {
               <img src={gender} alt="" />
             </div>
             <div className="profile-details">
-              <span style={{ fontSize: "18px", fontWeight: "bold" }}>Male</span>
+              <span style={{ fontSize: "18px", fontWeight: "bold" }}>  {state.user.gender}</span>
               <span>Gender</span>
             </div>
           </div>
@@ -72,7 +72,7 @@ function Profile() {
             </div>
             <div className="profile-details">
               <span style={{ fontSize: "18px", fontWeight: "bold" }}>
-                +62 83 829 800 185
+                {state.user.phone}
               </span>
               <span>Mobile Phone</span>
             </div>
@@ -83,7 +83,7 @@ function Profile() {
             </div>
             <div className="profile-details">
               <span style={{ fontSize: "18px", fontWeight: "bold" }}>
-                Kota Bandung
+                {state.user.address}
               </span>
               <span>Address</span>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -11,57 +11,29 @@ import { useMutation } from "react-query";
 
 // Import API config
 import { API } from "../config/api";
+import { useQuery } from 'react-query';
+import { UserContext } from '../context/userContext';
 
 function Listfilm(props) {
-    console.clear();
-
-    let Navigate = useNavigate();
-    let api = API();
-
-    const [category, setCategory] = useState("");
-
-    const handleChange = (e) => {
-        setCategory(e.target.value);
-    };
-
-    const handleSubmit = useMutation(async (e) => {
-        try {
-            e.preventDefault();
-
-            // Data body
-            const body = JSON.stringify({ name: category });
-
-            // Configuration
-            const config = {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json",
-                },
-                body,
-            };
-            console.log(config);
-
-            // Insert category data
-            const response = await API.post("/category", config);
-
-            console.log(response);
-
-            Navigate("/listfilms");
-        } catch (error) {
-            console.log(error);
-        }
+    // Fetching product data from database
+    const [state] = useContext(UserContext);
+    console.log("ini state", state)
+    let { data: films } = useQuery('filmsCache', async () => {
+        const response = await API.get('/films');
+        console.log("ini response", response)
+        return response.data.data;
     });
 
     return (
         <div>
             <div style={{ backgroundColor: "black" }} className='d-flex'>
                 <div className='d-flex'>
-                    <h2 className='text-light ms-4'> List Film</h2>
+                    <h2 className='text-light ms-4 mt-2'> List Film</h2>
                 </div>
 
-                <div className='d-flex'>
+                <div className='d-flex mb-2'>
                     <Dropdown >
-                        <Dropdown.Toggle variant="outline-secondar mx-3 text-light border" id="dropdown-basic">
+                        <Dropdown.Toggle variant="outline-secondar mx-3 text-light border mt-2" id="dropdown-basic">
                             Categori
                         </Dropdown.Toggle>
                         <Dropdown.Menu className=' bg-transparent border'>
@@ -82,7 +54,7 @@ function Listfilm(props) {
 
                 <h2 className='mx-4' id="tvseries">{props.category == "tv-series" ? "TV Series" : "Movies"}</h2>
                 <Row>
-                    {props.category == "tv-series" ? dataListfilm.slice(0, 12).map((films, index) => {
+                    {props.category == "tv-series" ? films?.map((films, index) => {
 
                         return (
 
@@ -92,7 +64,7 @@ function Listfilm(props) {
 
                                     <Card style={{ backgroundColor: "black" }} className="px-2">
                                         <Link to="/listdetails" className="text-decoration-none" >
-                                            <Card.Img variant="top" src={films.img} style={{ width: '200px', height: '300px', objectFit: "cover" }} />
+                                            <Card.Img variant="top" src={films.thumbnailfilm} style={{ width: '200px', height: '300px', objectFit: "cover" }} />
                                             <Card.Body className='text-light'>
                                                 <Card.Title>{films.title}</Card.Title>
                                                 <Card.Text>
@@ -108,13 +80,13 @@ function Listfilm(props) {
                             </Col>
 
                         )
-                    }) : datamovies.slice(0, 12).map((films, index) => {
+                    }) : films?.map((films, index) => {
                         return (
                             <Col sm={6} md={4} lg={3} xl={2}>
                                 <div className='d-flex mx-auto pt-2 ' key={index}>
                                     <Card style={{ backgroundColor: "black" }} className="px-2">
                                         <Link to="/listdetails" className="text-decoration-none" >
-                                            <Card.Img variant="top" src={films.img} style={{ width: '200px', height: '300px', objectFit: "cover" }} />
+                                            <Card.Img variant="top" src={films.thumbnailfilm} style={{ width: '200px', height: '300px', objectFit: "cover" }} />
                                             <Card.Body className='text-light'>
                                                 <Card.Title>{films.title}</Card.Title>
                                                 <Card.Text>

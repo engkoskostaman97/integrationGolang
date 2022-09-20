@@ -1,15 +1,26 @@
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
 import bgImg from "../assets/the-witcher.png";
 import { Link } from "react-router-dom";
 import img from "../assets/txtw.png";
 import movies from "../dummyData/movies.js";
 import tvSeries from "../dummyData/tvseries.js";
-
+// Import API config
+import { API } from "../config/api";
+import { useQuery } from 'react-query';
+import { UserContext } from '../context/userContext';
 function HomePage() {
   const title = "Home";
   document.title = "Dumbflix | " + title;
   const [dataMovies, setDataMovies] = useState(movies);
   const [dataTvSeries, setDataTvSeries] = useState(tvSeries);
+  // Fetching product data from database
+  const [state] = useContext(UserContext);
+  console.log("ini state", state)
+  let { data: films } = useQuery('filmsCache', async () => {
+    const response = await API.get('/films');
+    console.log("ini response", response)
+    return response.data.data;
+  });
 
   return (
     <>
@@ -65,11 +76,11 @@ function HomePage() {
         </div>
         <h4 className="text-white ms-3">Movies</h4>
         <div className="containerCard">
-          {dataMovies.slice(0, 6).map((item) => (
+          {films?.slice(0, 6).map((item) => (
             <Link to="/detailFilm">
               <div className="box mb-5" key={item.id}>
                 <div className="imgBx">
-                  <img src={item.img} alt="" />
+                  <img src={item.thumbnailfilm} alt="" />
                 </div>
                 <div className="content">
                   <div>

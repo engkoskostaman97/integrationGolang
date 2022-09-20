@@ -22,6 +22,8 @@ export default function ModalLogin({
   let Navigate = useNavigate();
   let api = API();
 
+  const navigate = useNavigate
+
   const [state, dispatch] = useContext(UserContext);
 
   const [message, setMessage] = useState(null);
@@ -91,6 +93,8 @@ export default function ModalLogin({
 
         setMessage(alert);
       }
+
+
     } catch (error) {
       const alert = (
         <Alert variant="danger" className="py-1">

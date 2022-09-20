@@ -43,10 +43,13 @@ export default function ModalRegist({
     });
   };
 
+  const navigate = useNavigate()
   const handleSubmit = useMutation(async (e) => {
+
     console.log("test bro")
     try {
       e.preventDefault();
+
 
       // Data body
       const body = JSON.stringify(form);
@@ -62,36 +65,36 @@ export default function ModalRegist({
 
       // Insert data user to database
       const response = await API.post("/register", body, config)
-      // console.log(response)
-      // if (response.data.data.code == 200) {
-      //   // Send data to useContext
-      //   dispatch({
-      //     type: " SUCCESS",
-      //     payload: response.data.data,
-      //   });
-      //   // Status check
-      //   if (response.data.data.status === "user") {
-      //     Navigate("/")
-      //   }
+      console.log(response)
+      if (response.data.data.code == 200) {
+        // Send data to useContext
+        dispatch({
+          type: " SUCCESS",
+          payload: response.data.data,
+        });
 
-      //   const alert = (
-      //     <Alert variant="success" className="py-1">
-      //       Register success
-      //     </Alert>
-      //   );
-      //   setMessage(alert);
-      // } else {
-      //   const alert = (
-      //     <Alert variant="danger" className="py-1">
-      //       Register failed
-      //     </Alert>
-      //   );
-      //   console.log("else")
+        const alert = (
+          <Alert variant="success" className="py-1">
+            Register success
+          </Alert>
+        );
+        setMessage(alert);
+      } else {
+        const alert = (
+          <Alert variant="success" className="py-1">
+            Register success
+          </Alert>
+        );
+        console.log("else")
 
-      //   setMessage(alert);
-      // }
+        setMessage(alert);
+      }
     } catch (error) {
-
+      const alert = (
+        <Alert variant="danger" className="py-1">
+          Login failed
+        </Alert>
+      );
       console.log("catch")
       setMessage(alert);
       console.log(error);
@@ -183,10 +186,10 @@ export default function ModalRegist({
               </label>
             </div>
             <div className="d-grid gap-2 mt-3">
-              <button type="submit" className="btnRegister" onClick={registerHere}  >Register</button>
+              <button type="submit" className="btnRegister" onClick={() => setRegisterShow(false)}  >Register</button>
               <p className="warning">
                 Already have an account?
-                <button onClick={registerHere} className="btnHere">
+                <button className="btnHere" onClick={registerHere} >
                   Click here
                 </button>
               </p>

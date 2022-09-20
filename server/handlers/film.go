@@ -38,7 +38,9 @@ func (h *handlerFilm) FindFilms(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(response)
 		return
 	}
-
+	for i, p := range films {
+		films[i].ThumbnailFilm = os.Getenv("PATH_FILE") + p.ThumbnailFilm
+	}
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: films}
 	json.NewEncoder(w).Encode(response)
