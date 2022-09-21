@@ -2,12 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import dataListfilm from '../dummyData/datalistfilm.js';
-import datamovies from '../dummyData/datamovies.js';
 import { Row, Col } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 // Import useMutation
-import { useMutation } from "react-query";
+
 
 // Import API config
 import { API } from "../config/api";

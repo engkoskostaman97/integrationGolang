@@ -4,24 +4,27 @@ import "time"
 
 type Transaction struct {
 	ID        int          `json:"id" gorm:"primary_key:auto_increment"`
-	StartDate string       `json:"startdate" form:"startdate" gorm:"type: varchar(255)"`
-	DueDate   string       `json:"duedate" form:"duedate" gorm:"type: varchar(255)"`
-	User      UserResponse `json:"user"`
-	UserID    int          `json:"user_id" form:"user_id"`
-	Attache   string       `json:"attache" form:"attache" gorm:"type: varchar(255)"`
-	Status    bool         `json:"status" gorm:"type:text" form:"status"`
+	StartDate string       `json:"startDate"`
+	DueDate   string       `json:"dueDate"`
+	UserID    int          `json:"user_id"`
+	User      UserResponse `json:"userId" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Attache   string       `json:"attache"`
+	Price     int          `json:"price"`
+	Status    string       `json:"status"`
 	CreatedAt time.Time    `json:"-"`
 	UpdatedAt time.Time    `json:"-"`
 }
 
 type TransactionResponse struct {
-	ID        int          `json:"id"`
-	StartDate string       `json:"startdate"`
-	DueDate   string       `json:"duedate"`
-	User      UserResponse `json:"user"`
-	UserID    int          `json:"user_id"`
-	Attache   string       `json:"attache"`
-	Status    bool         `json:"status"`
+	ID        		int       		`json:"id"`
+	StartDate      	string    		`json:"startDate"`
+	DueDate      		string    		`json:"dueDate"`
+	UserID      		int    			`json:"user_id"`
+	User      		UserResponse    `json:"userId" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Attache     		string    		`json:"attache"`
+	Status     		string    		`json:"status"`
+	CreatedAt 		time.Time 		`json:"-"`
+	UpdatedAt 		time.Time 		`json:"-"`
 }
 
 type TransactionUserResponse struct {

@@ -1,7 +1,88 @@
-import { React, useRef, useState } from "react";
+import { React, useRef, useState, useEffect } from "react";
 import clip from "../assets/clip.png";
+import { useMutation, useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { API } from "../config/api";
 
 function Upgrade() {
+  let Navigate = useNavigate();
+  let { data: profile, refetch: profileRefetch } = useQuery(
+    "profileCache",
+    async () => {
+      const config = {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + localStorage.token,
+        },
+      };
+      const response = await API.get("/check-auth", config);
+      return response.data.data;
+    }
+  );
+
+  useEffect(() => {
+    //change this to the script source you want to load, for example this is snap.js sandbox env
+    const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+    //change this according to your client-key
+    const myMidtransClientKey = "SB-Mid-client-yyus5cIEx8irJgE0";
+
+    let scriptTag = document.createElement("script");
+    scriptTag.src = midtransScriptUrl;
+    // optional if you want to set script attribute
+    // for example snap.js have data-client-key attribute
+    scriptTag.setAttribute("data-client-key", myMidtransClientKey);
+
+    document.body.appendChild(scriptTag);
+    return () => {
+      document.body.removeChild(scriptTag);
+    };
+  }, []);
+
+  const handleBuy = useMutation(async (e) => {
+    e.preventDefault()
+    try {
+      const data = {
+        userId: profile?.ID,
+      };
+
+      const body = JSON.stringify(data);
+
+      const config = {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + localStorage.token,
+          "Content-type": "application/json",
+        },
+        body,
+      };
+
+      // Insert transaction data
+      const response = await API.post("/transaction", config);
+      console.log("ini transaction", response);
+      const token = response.data.data.token;
+
+      window.snap.pay(token, {
+        onSuccess: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          Navigate("/profile");
+        },
+        onPending: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          Navigate("/profile");
+        },
+        onError: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+        },
+        onClose: function () {
+          /* You may add your own implementation here */
+          alert("you closed the popup without finishing the payment");
+        },
+      });
+    } catch (error) { }
+  });
   const title = "Be Premium";
   document.title = "Dumbflix | " + title;
 
@@ -88,6 +169,7 @@ function Upgrade() {
 
               <button
                 type="submit"
+                onClick={(e) => handleBuy.mutate(e)}
                 className="btnsub"
                 style={{
                   height: "35px",

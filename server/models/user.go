@@ -11,23 +11,25 @@ type User struct {
 	Phone     string    `json:"phone" gorm:"type: varchar(255)"`
 	Address   string    `json:"address" gorm:"type: varchar(255)"`
 	Subscribe string    `json:"subscribe" gorm:"type: varchar(255)"`
-	Status    string    `gorm:"type: varchar(255)" json:"status" `
-	CreatedAt time.Time `json:"-"`
-	UpdatedAt time.Time `json:"-"`
+	Status    string    `json:"status" gorm:"type: varchar(255)"`
+	Token     string    `json:"token" gorm:"type: varchar(255)"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type UserResponse struct {
 	ID        int       `json:"id"`
-	FullName  string    `json:"fullname"`
-	Email     string    `json:"email"`
-	Password  string    `json:"-"`
-	Gender    string    `json:"gender"`
-	Phone     string    `json:"phone"`
-	Address   string    `json:"address"`
-	Subscribe string    `json:"subscribe"`
-	Status    string    `gorm:"type: varchar(255)" json:"status"`
-	CreatedAt time.Time `json:"-"`
-	UpdatedAt time.Time `json:"-"`
+	FullName  string    `json:"fullname" gorm:"type: varchar(255)"`
+	Email     string    `json:"email" gorm:"type: varchar(255)"`
+	Password  string    `json:"password" gorm:"type: varchar(255)"`
+	Gender    string    `json:"gender" gorm:"type: varchar(255)"`
+	Phone     string    `json:"phone" gorm:"type: varchar(255)"`
+	Address   string    `json:"address" gorm:"type: varchar(255)"`
+	Subscribe string    `json:"subscribe" gorm:"type: varchar(255)"`
+	Status    string    `json:"status" gorm:"type: varchar(255)"`
+	Token     string    `json:"token" gorm:"type: varchar(255)"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type UserAuthResponse struct {

@@ -1,28 +1,23 @@
 package transactionsdto
 
+import "dumbflix/models"
+
 type TransactionRequest struct {
-	StartDate string `json:"startdate" gorm:"type: varchar(255)"`
-	DueDate   string `json:"duedate" gorm:"type: varchar(255)"`
-	UserID    int    `json:"user_id" form:"user_id"`
-	Attache   string `json:"attache" form:"attache" gorm:"type: varchar(255)"`
-	Status    bool   `json:"status" gorm:"type:text" form:"status"`
+	ID        int                 `json:"id" validate:"required"`
+	StartDate string              `json:"startDate" form:"startDate" gorm:"type: varchar(255)"`
+	DueDate   string              `json:"dueDate" form:"dueDate" gorm:"type:varchar(255)"`
+	User      models.UserResponse `json:"userId"`
+	UserID    int                 `json:"user_id" form:"user_id" gorm:"-"`
+	Attache   string              `json:"attache" form:"attache" gorm:"type: varchar(255)"`
+	Status    string              `json:"status" form:"status" gorm:"type: varchar(255)"`
 }
 
-type CreateTransactionRequest struct {
-	StartDate string `json:"startdate"`
-	DueDate   string `json:"duedate"`
-	UserID    int    `json:"user_id" form:"user_id"`
-	Attache   string `json:"attache" form:"attache" gorm:"type: varchar(255)"`
-	Status    bool   `json:"status" gorm:"type:text" form:"status"`
-}
-
-type UpdateTransactionRequest struct {
-	StartDate string `json:"startdate"`
-	DueDate   string `json:"duedate"`
-	UserID    int    `json:"user_id" form:"user_id"`
-	Attache   string `json:"attache" form:"attache" gorm:"type: varchar(255)"`
-	Status    bool   `json:"status" gorm:"type:text" form:"status"`
-}
-type TransactionDeleteResponse struct {
-	ID int `json:"id"`
+type TransactionUpdateRequest struct {
+	// ID				int							`json:"id" gorm:"primary_key:auto_increment"`
+	StartDate string              `json:"startDate" form:"startDate" gorm:"type: varchar(255)"`
+	DueDate   string              `json:"dueDate" form:"dueDate" gorm:"type:varchar(255)"`
+	UserID    int                 `json:"user_id" form:"user_id" gorm:"-"`
+	User      models.UserResponse `json:"userId"`
+	Attache   string              `json:"attache" form:"attache" gorm:"type: varchar(255)"`
+	Status    string              `json:"status" form:"status" gorm:"type: varchar(255)"`
 }
