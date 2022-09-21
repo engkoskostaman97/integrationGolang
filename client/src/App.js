@@ -43,7 +43,7 @@ function App() {
     //   }
     // }
   }, [state]);
-// console.log("bacaaa",isLogin)
+  // console.log("bacaaa",isLogin)
   const checkUser = async () => {
     try {
       const response = await API.get('/check-auth');
@@ -86,7 +86,7 @@ function App() {
         <Route path='/listfilms/:category' element={<Listfilms />} />
         <Route path='/listfilms' element={<Listfilms />} />
         <Route path='/addfilm' element={<Addfilm />} />
-        <Route path='/listdetails' element={<Listdetails />} />
+        <Route path='/listdetails/:id' element={<Listdetails />} />
         {/* router user */}
         <Route path='/' element={<Home />} />
         <Route path="/tvshow" element={<TvseriesPage />} />

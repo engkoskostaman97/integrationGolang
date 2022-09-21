@@ -60,10 +60,10 @@ function Listfilm(props) {
 
                             <Col sm={6} md={4} lg={3} xl={2}>
 
-                                <div className='d-flex mx-auto pt-2 ' key={index}>
+                                <div className='d-flex mx-auto pt-2 ' key={index} >
 
                                     <Card style={{ backgroundColor: "black" }} className="px-2">
-                                        <Link to="/listdetails" className="text-decoration-none" >
+                                        <Link to={`/listdetails/${films.id}`} className="text-decoration-none" >
                                             <Card.Img variant="top" src={films.thumbnailfilm} style={{ width: '200px', height: '300px', objectFit: "cover" }} />
                                             <Card.Body className='text-light'>
                                                 <Card.Title>{films.title}</Card.Title>
@@ -85,7 +85,7 @@ function Listfilm(props) {
                             <Col sm={6} md={4} lg={3} xl={2}>
                                 <div className='d-flex mx-auto pt-2 ' key={index}>
                                     <Card style={{ backgroundColor: "black" }} className="px-2">
-                                        <Link to="/listdetails" className="text-decoration-none" >
+                                        <Link to={`/listdetails/${films.id}`} className="text-decoration-none" >
                                             <Card.Img variant="top" src={films.thumbnailfilm} style={{ width: '200px', height: '300px', objectFit: "cover" }} />
                                             <Card.Body className='text-light'>
                                                 <Card.Title>{films.title}</Card.Title>

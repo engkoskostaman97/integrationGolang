@@ -23,3 +23,6 @@ type UpdateTransactionRequest struct {
 	Attache   string `json:"attache" form:"attache" gorm:"type: varchar(255)"`
 	Status    bool   `json:"status" gorm:"type:text" form:"status"`
 }
+type TransactionDeleteResponse struct {
+	ID int `json:"id"`
+}

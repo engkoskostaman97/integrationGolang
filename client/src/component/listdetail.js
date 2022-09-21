@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import 'video.js/dist/video-js.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -6,11 +6,23 @@ import CardGroup from 'react-bootstrap/CardGroup';
 import gambar3 from '../image/Rectangle3.jpg';
 import gambar4 from '../image/Rectangle65.jpg';
 import AddEpisode from "./addepisode";
+import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery, useMutation } from 'react-query';
+import { API } from '../config/api';
+import { UserContext } from '../context/userContext';
 
 function Listdetail() {
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
+    const [state] = useContext(UserContext);
+    let navigate = useNavigate();
+    let { id } = useParams();
+    let { data: film } = useQuery('filmCache', async () => {
+        const response = await API.get('/film/' + id);
+        console.log("ini response", response)
+        return response.data.data;
+    });
     return (
         <>
             <div className='listd' variant="dark">
