@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import bgImg from "../assets/bgjoker.png";
 import img from "../assets/txtjoker.png";
 import movies from "../dummyData/movies.js";
-
+import { API } from "../config/api";
+import { useQuery } from 'react-query';
 function MoviesPage() {
   const title = "Movies";
   document.title = "Dumbflix | " + title;
@@ -11,7 +12,23 @@ function MoviesPage() {
   const [data, setData] = useState(movies);
   console.log(data);
   //   console.log(ts);
+  let { data: films } = useQuery("moviesCache", async () => {
+    const response = await API.get("/films");
+    console.log("response film", response);
 
+    const resultResponse = response.data.data;
+
+    const resultFilter = resultResponse.filter((e) => {
+      if (e.category_id === 2) {
+        return e.category_id === 2;
+      }
+    });
+
+    console.log(resultFilter);
+    return resultFilter;
+  });
+
+  console.log(films);
   return (
     <>
       <div
@@ -50,16 +67,17 @@ function MoviesPage() {
       <div style={{ backgroundColor: "black" }}>
         <h4 className="text-white ms-3">Movies</h4>
         <div className="containerCard">
-          {data?.map((item, index) => (
-            <Link to="/detailFilm">
+          {films?.map((item, index) => (
+            <Link to={`/detailfilm/${item.id}`}>
               <div className="box mb-5" key={item.id}>
                 <div className="imgBx">
-                  <img src={item.img} alt="" />
+
+                  <img src={item.thumbnailfilm} alt="" />
                 </div>
                 <div className="content">
                   <div>
-                    <h2>{item.title}</h2>
-                    <p>{item.year}</p>
+                    <h2>{item?.title}</h2>
+                    <p>{item?.year}</p>
                   </div>
                 </div>
               </div>

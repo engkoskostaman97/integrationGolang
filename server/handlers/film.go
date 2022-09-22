@@ -60,6 +60,8 @@ func (h *handlerFilm) GetFilm(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	film.ThumbnailFilm = os.Getenv("PATH_FILE") + film.ThumbnailFilm
+
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: convertResponseFilm(film)}
 	json.NewEncoder(w).Encode(response)
@@ -82,6 +84,7 @@ func (h *handlerFilm) CreateFilm(w http.ResponseWriter, r *http.Request) {
 		Description: r.FormValue("description"),
 		Year:        r.FormValue("year"),
 		CategoryID:  category_id,
+		LinkFilm:    r.FormValue("linkfilm"),
 	}
 
 	validation := validator.New()
@@ -99,6 +102,7 @@ func (h *handlerFilm) CreateFilm(w http.ResponseWriter, r *http.Request) {
 		Year:          request.Year,
 		ThumbnailFilm: filename,
 		CategoryID:    request.CategoryID,
+		LinkFilm:      request.LinkFilm,
 	}
 
 	film, err = h.FilmRepository.CreateFilm(film)
@@ -143,10 +147,13 @@ func (h *handlerFilm) DeleteFilm(w http.ResponseWriter, r *http.Request) {
 
 func convertResponseFilm(u models.Film) models.FilmResponse {
 	return models.FilmResponse{
+		ID:            u.ID,
+		CategoryID:    u.CategoryID,
 		Title:         u.Title,
 		Description:   u.Description,
 		Year:          u.Year,
 		ThumbnailFilm: u.ThumbnailFilm,
 		Category:      u.Category,
+		LinkFilm:      u.LinkFilm,
 	}
 }

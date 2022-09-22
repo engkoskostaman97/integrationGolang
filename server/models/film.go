@@ -10,6 +10,7 @@ type Film struct {
 	CategoryID    int                `json:"category_id" form:"category_id"`
 	Category      CategoriesResponse `json:"category" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Description   string             `json:"description" gorm:"type:text" form:"description"`
+	LinkFilm      string             `json:"linkfilm" form:"linkfilm" gorm:"type: varchar(255)"`
 	CreatedAt     time.Time          `json:"-"`
 	UpdatedAt     time.Time          `json:"-"`
 }
@@ -22,6 +23,7 @@ type FilmResponse struct {
 	CategoryID    int                `json:"category_id"`
 	Category      CategoriesResponse `json:"category" form:"category"`
 	Description   string             `json:"description"`
+	LinkFilm      string             `json:"linkfilm" form:"linkfilm" gorm:"type: varchar(255)"`
 }
 
 type FilmEpisodeResponse struct {

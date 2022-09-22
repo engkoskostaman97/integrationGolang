@@ -55,44 +55,26 @@ function HomePage() {
           </div>
         </div>
       </div>
-      <div style={{ backgroundColor: "black" }}>
-        <h4 className="text-white ms-3">Tv Series</h4>
-        <div className="containerCard">
-          {dataTvSeries.slice(0, 6).map((item) => (
-            <Link to="/detailFilm">
-              <div className="box" key={item.id}>
-                <div className="imgBx">
-                  <img src={item.img} alt="" />
-                </div>
-                <div className="content">
-                  <div>
-                    <h2>{item.title}</h2>
-                    <p>{item.year}</p>
-                  </div>
+
+
+      <div className="containerCard">
+        {films?.slice(0, 12).map((item) => (
+          <Link to={`/detailfilm/${item.id}`}>
+            <div className="box mb-5" key={item.id}>
+              <div className="imgBx">
+                <img src={item.thumbnailfilm} alt="" />
+              </div>
+              <div className="content">
+                <div>
+                  <h2>{item.title}</h2>
+                  <p>{item.year}</p>
                 </div>
               </div>
-            </Link>
-          ))}
-        </div>
-        <h4 className="text-white ms-3">Movies</h4>
-        <div className="containerCard">
-          {films?.slice(0, 6).map((item) => (
-            <Link to="/detailFilm">
-              <div className="box mb-5" key={item.id}>
-                <div className="imgBx">
-                  <img src={item.thumbnailfilm} alt="" />
-                </div>
-                <div className="content">
-                  <div>
-                    <h2>{item.title}</h2>
-                    <p>{item.year}</p>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+            </div>
+          </Link>
+        ))}
       </div>
+
     </>
   );
 }

@@ -95,7 +95,7 @@ function App() {
         <Route path="/movies" element={<MoviesPage />} />
         <Route path="/profiles" element={<Profiles />} />
         <Route path="/paymen" element={<Paymen />} />
-        <Route path="/detailfilm" element={<Detailfilm />} />
+        <Route path="/detailfilm/:id" element={<Detailfilm />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

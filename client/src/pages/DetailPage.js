@@ -1,9 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Film from "../components/Film";
 import movies from "../dummyData/movies";
 import tvSeries from "../dummyData/tvseries";
+import Card from 'react-bootstrap/Card';
+import { useQuery, useMutation } from "react-query";
+import { useParams, useNavigate } from "react-router-dom";
+import { API, setAuthToken } from "../config/api";
+import { UserContext } from "../context/userContext";
 
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 function DetailPage() {
+  const [state] = useContext(UserContext);
+  let navigate = useNavigate();
+  let { id } = useParams();
+
+  let { data: film } = useQuery("productCache", async () => {
+    const response = await API.get("/film/" + id);
+    return response.data.data;
+  });
+  console.log(film);
+
+  useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
+    // Redirect subscribe
+    if (state.user.subscribe === false) {
+      navigate("/");
+    }
+  }, [state]);
   const category = { movies, tvSeries };
   console.log(category);
 
@@ -15,17 +43,18 @@ function DetailPage() {
       <Film />
       <div className="detail-bot">
         <div className="detail-desc">
-          <div className="img-mov me-3">
+          <div className="img-mov mt-2 ms-5">
             <img
-              src="https://i.ytimg.com/vi/ePpJDKfRAyM/movieposter.jpg"
+              src={film?.thumbnailfilm}
               alt=""
-              width="100%"
+              width="270px"
+
             />
           </div>
-          <div className="desc-mov">
-            <h2>Avengers: End Game</h2>
+          <div className="desc-mov  mb-2 ms-5 px-5">
+            <h2>{film?.title}</h2>
             <div className="d-flex text-muted">
-              <p style={{ padding: "3px" }}>2019 </p>
+              <p style={{ padding: "3px" }}>{film?.year} </p>
               <p className="ms-3 txt-mtd">{dataCategory.movies[3].category}</p>
             </div>
             <p
@@ -35,38 +64,19 @@ function DetailPage() {
                 width: "80%",
               }}
             >
-              Geralt of Rivia, a solitary monster hunter, struggles to find his
-              place in a world where people often prove more wicked than beast
+              {film?.description}
             </p>
           </div>
         </div>
         <div className="detail-play">
           <div
             className="img-in-play mt-1"
-            style={{
-              backgroundImage: `linear-gradient(to bottom, rgba(104, 106, 116, 0), rgba(0, 0, 0, 0.99)),url(https://i.ytimg.com/vi/ePpJDKfRAyM/movieposter.jpg)`,
-              backgroundPosition: "center center",
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <div
-              className="d-flex justify-content-center align-items-end"
-              style={{ width: "100%", marginTop: "10px" }}
-            >
-              <p
-                style={{
-                  fontWeight: "700",
-                  textAlign: "center",
-                }}
-              >
-                In Play Now <br />
-                <br />
-                <br />
-                <span className="text-muted"> Avengers: Endgame</span>
-                <br />
-              </p>
-            </div>
+
+          >< Card style={{ backgroundColor: "black" }} className="detailCard d-flex align-items-center">
+              <Card.Img variant="top" src={film?.thumbnailfilm} />
+              <p className='text-light'>{film?.title}</p>
+            </Card>
+
           </div>
         </div>
       </div>

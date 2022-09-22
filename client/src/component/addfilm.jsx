@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Form, Card, Row, Col, Button } from "react-bootstrap";
 import { BsPaperclip } from "react-icons/bs";
-import { AiOutlinePlus } from "react-icons/ai";
 import Listtrans from './listtrans';
 import { useNavigate } from "react-router-dom";
 import { API } from "../config/api";
@@ -9,23 +8,23 @@ import { useEffect } from "react";
 import { useMutation, useQuery } from "react-query";
 const styles = {
     cardd: {
-      backgroundColor: "black",
-      margin: "20px",
+        backgroundColor: "black",
+        margin: "20px",
     },
     col: {
-      width: "915px",
+        width: "915px",
     },
     color: {
-      backgroundColor: "rgba(210, 210, 210, 0.25)",
-      resize: "none",
-      borderColor: "white",
-      boxShadow: "none",
+        backgroundColor: "rgba(210, 210, 210, 0.25)",
+        resize: "none",
+        borderColor: "white",
+        boxShadow: "none",
     },
     select: {
-      backgroundColor: "rgba(210, 210, 210, 0.25)",
+        backgroundColor: "rgba(210, 210, 210, 0.25)",
     },
-  };
-  
+};
+
 function Addfilm() {
     const title = "Add Film";
     document.title = "Dumbflix | " + title;
@@ -38,7 +37,8 @@ function Addfilm() {
         thumbnailFilm: "",
         year: "",
         desc: "",
-        categoryId: "",
+        linkfilm: "",
+        category_id: "",
     });
 
     const getCategories = async () => {
@@ -50,22 +50,22 @@ function Addfilm() {
         }
     };
 
-    // const handleChangeCategoryId = (e) => {
-    //   const id = e.target.value;
-    //   const checked = e.target.checked;
+    const handleChangeCategoryId = (e) => {
+      const id = e.target.value;
+      const checked = e.target.checked;
 
-    //   if (checked) {
-    //     // Save category id if checked
-    //     setCategoryId([...categoryId, parseInt(id)]);
-    //   } else {
-    //     // Delete category id from variable if unchecked
-    //     let newCategoryId = categoryId.filter((categoryIdItem) => {
-    //       return categoryIdItem != id;
-    //     });
-    //     setCategoryId(newCategoryId);
-    //   }
-    // };
-    //   console.log(setCategoryId);
+      if (checked) {
+        // Save category id if checked
+        setCategoryId([...categoryId, parseInt(id)]);
+      } else {
+        // Delete category id from variable if unchecked
+        let newCategoryId = categoryId.filter((categoryIdItem) => {
+          return categoryIdItem != id;
+        });
+        setCategoryId(newCategoryId);
+      }
+    };
+      console.log(setCategoryId);
     const handleChange = (e) => {
         setForm({
             ...form,
@@ -100,9 +100,10 @@ function Addfilm() {
                 form.thumbnailFilm[0],
                 form.thumbnailFilm[0].name
             );
-            formData.set("year", form.year);
-            formData.set("desc", form.desc);
-            formData.set("category_id", form.categoryId);
+            formData.set("year", form?.year);
+            formData.set("desc", form?.desc);
+            formData.set("linkfilm", form?.linkfilm)
+            formData.set("category_id", form?.category_id);
 
             console.log("form", form);
 
@@ -222,12 +223,11 @@ function Addfilm() {
                                 className="form-select bg-dark text-white"
                                 aria-label="Default select example"
                                 onChange={handleChange}
-                                name="categoryId"
+                                name="category_id"
                             >
-                                <option value="">Category</option>
-                                {categories.map((item) => (
-                                    <option value={item.id}>{item.name}</option>
-                                ))}
+                                <option disabled>Category</option>
+                                <option value="1">TV Series</option>
+                                <option value="2">Movies</option>
                             </select>
                         </div>
                         <div className="col-10 d-flex justify-content-center input-group-lg">
@@ -292,18 +292,17 @@ function Addfilm() {
                                 </div>
                             ))}
                         </form>
+                        <div className="col-10 d-flex justify-content-center">
+                            <Form.Control
+                                type="text"
+                                placeholder="LinkFilm"
+                                name="linkfilm"
+                                onChange={handleChange}
+                                className="bg-dark text-white"
+                            />
+                        </div>
 
-                        {/* Address */}
-                        {/* <Form.Group className="mb-3" controlId="add">
-                            <input type="file" className="d-none" ref={fileInput} />
-                            <Button
-                                style={styles.color}
-                                onClick={() => addFormFields()}
-                                className="text-secondary text-center col-12"
-                            >
-                                <AiOutlinePlus className="text-danger" />
-                            </Button>
-                        </Form.Group> */}
+                     
                         <div className="col-10 d-flex justify-content-end">
                             <button
                                 class="btn btn-danger float-md-end btn-lg  d-grid gap-2 col-2 "

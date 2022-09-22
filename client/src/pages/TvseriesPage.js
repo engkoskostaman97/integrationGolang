@@ -3,12 +3,29 @@ import { Link } from "react-router-dom";
 import bgImg from "../assets/bglacasa.png";
 import img from "../assets/lacasa.png";
 import tvSeries from "../dummyData/tvseries.js";
+import { API } from "../config/api";
+import { useQuery } from 'react-query';
 
 function TvseriesPage() {
   const title = "Tv Shows";
   document.title = "Dumbflix | " + title;
 
   const [dataTvSeries, setDataTvSeries] = useState(tvSeries);
+  let { data: films } = useQuery("moviesCache", async () => {
+    const response = await API.get("/films");
+    console.log("response film", response);
+
+    const resultResponse = response.data.data;
+
+    const resultFilter = resultResponse.filter((e) => {
+      if (e.category_id === 1) {
+        return e.category_id === 1;
+      }
+    });
+
+    console.log(resultFilter);
+    return resultFilter;
+  });
 
   return (
     <>
@@ -49,16 +66,16 @@ function TvseriesPage() {
       <div style={{ backgroundColor: "black" }}>
         <h4 className="text-white ms-3">Tv Series</h4>
         <div className="containerCard">
-          {dataTvSeries.map((item) => (
-            <Link to="/detailFilm">
+          {films?.map((item) => (
+            <Link to={`/detailfilm/${item.id}`}>
               <div className="box mb-5">
                 <div className="imgBx">
-                  <img src={item.img} alt="" />
+                  <img src={item?.thumbnailfilm} alt="" />
                 </div>
                 <div className="content">
                   <div>
-                    <h2>{item.title}</h2>
-                    <p>{item.year}</p>
+                    <h2>{item?.title}</h2>
+                    <p>{item?.year}</p>
                   </div>
                 </div>
               </div>

@@ -22,6 +22,9 @@ function Listfilm(props) {
         return response.data.data;
     });
 
+    const [category, setCategory] = useState("Movies")
+
+
     return (
         <div>
             <div style={{ backgroundColor: "black" }} className='d-flex'>
@@ -29,16 +32,12 @@ function Listfilm(props) {
                     <h2 className='text-light ms-4 mt-2'> List Film</h2>
                 </div>
 
-                <div className='d-flex mb-2'>
-                    <Dropdown >
-                        <Dropdown.Toggle variant="outline-secondar mx-3 text-light border mt-2" id="dropdown-basic">
-                            Categori
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu className=' bg-transparent border'>
-                            <Dropdown.Item href="/listfilms/tv-series" className='text-light'>Tv Series</Dropdown.Item>
-                            <Dropdown.Item href="/listfilms/movies" className='text-light'>Movies</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                <div className='d-flex mb-2 mt-2 border border-dark'>
+                    <select value={category} onChange={(e) => setCategory(() => e.target.value)} name="list" id="list">
+                        <option disabled selected>Category</option>
+                        <option>Movies</option>
+                        <option>TV Series</option>
+                    </select>
 
                 </div>
 
@@ -50,7 +49,14 @@ function Listfilm(props) {
             </div>
             <div style={{ backgroundColor: "black" }}>
 
-                <h2 className='mx-4' id="tvseries">{props.category == "tv-series" ? "TV Series" : "Movies"}</h2>
+                {category == "Movies" ? (
+                    <h2 className="ms-4">Movies</h2>
+                ) :
+                    (
+                        <h2 className=" ms-4">TV Series</h2>
+                    )
+                }
+
                 <Row>
                     {props.category == "tv-series" ? films?.map((films, index) => {
 
@@ -71,10 +77,7 @@ function Listfilm(props) {
                                             </Card.Body>
                                         </Link>
                                     </Card>
-
-
                                 </div>
-
                             </Col>
 
                         )

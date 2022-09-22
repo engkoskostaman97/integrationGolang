@@ -1,31 +1,40 @@
-import React, { Component } from "react";
+import React from 'react'
+import { useQuery } from "react-query";
 import Endgame from "../assets/film/movies/Endgame.mp4";
+import { API } from '../config/api'
+import { useParams } from 'react-router-dom';
+
 
 // const sources = {
 //   Endgame: "../assets/movies/film/Endgame.mp4",
 // };
 
-export default class Film extends Component {
-  render() {
-    return (
-      <>
-        {/* <div className="video-control">
-          <video controls style={{ height: "350px", width: "100%" }}>
-            <source src={Endgame} type="video/mp4" />
-          </video>
-        </div> */}
+const Film = () => {
 
-        <div className="video-control">
-          <iframe
-            src="https://www.youtube.com/embed/TcMBFSGVi1c"
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-            title="video"
-            width="900px"
-            height="300px"
-          />
-        </div>
-      </>
-    );
-  }
+  let { id } = useParams();
+
+  let { data: film } = useQuery('filmCache', async () => {
+    const response = await API.get('/film/' + id);
+    console.log("ini response", response)
+    return response.data.data;
+  });
+
+  return (
+    <>
+ 
+
+      <div className="video-control">
+        <iframe
+          src={film?.linkfilm}
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+          title="video"
+          width="900" height="500"
+        />
+      </div>
+    </>
+  )
+
 }
+
+export default Film;
