@@ -34,6 +34,7 @@ function SeriesContaineradmin() {
                                     seriesImg={movies?.thumbnailfilm}
                                     title={movies?.title}
                                     year={movies?.year}
+                                
                                 />{" "}
                                 {/* Looping */}
                             </Col>

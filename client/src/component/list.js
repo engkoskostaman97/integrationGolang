@@ -43,7 +43,7 @@ function List() {
 
                                             <td>{item.id}</td>
                                             <td>{item.userId.fullname}</td>
-                                            <td>{item.userId.created_at
+                                            <td>{item.price
                                             }</td>
                                             <td>30 /Hari</td>
                                             <td

@@ -68,6 +68,7 @@ function HomePage() {
                 <div>
                   <h2>{item.title}</h2>
                   <p>{item.year}</p>
+                  <p></p>
                 </div>
               </div>
             </div>

@@ -102,7 +102,7 @@ func (h *handlerTransaction) CreateTransaction(w http.ResponseWriter, r *http.Re
 	transaction := models.Transaction{
 		ID:     TransactionId,
 		UserID: userId,
-		Price:  49000,
+		Price:  250000,
 		Status: "pending",
 	}
 

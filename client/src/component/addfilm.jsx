@@ -36,7 +36,7 @@ function Addfilm() {
         title: "",
         thumbnailFilm: "",
         year: "",
-        desc: "",
+        description: "",
         linkfilm: "",
         category_id: "",
     });
@@ -101,7 +101,7 @@ function Addfilm() {
                 form.thumbnailFilm[0].name
             );
             formData.set("year", form?.year);
-            formData.set("desc", form?.desc);
+            formData.set("description", form?.description);
             formData.set("linkfilm", form?.linkfilm)
             formData.set("category_id", form?.category_id);
 
@@ -237,7 +237,7 @@ function Addfilm() {
                                 id="exampleFormControlTextarea1"
                                 placeholder="Description"
                                 rows="3"
-                                name="desc"
+                                name="description"
                                 onChange={handleChange}
                             ></textarea>
                         </div>
