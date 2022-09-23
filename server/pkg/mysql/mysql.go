@@ -10,6 +10,7 @@ import (
 var DB *gorm.DB
 
 func DatabaseInit() {
+
 	var err error
 	dsn := "root:@tcp(127.0.0.1:3306)/dumbflix?charset=utf8mb4&parseTime=True&loc=Local"
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})

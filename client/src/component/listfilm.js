@@ -15,7 +15,7 @@ function Listfilm(props) {
     };
     return (
         <>
-            <div className="hero mt-5 text-light d-flex flex-column align-content-star ps-5 ">
+            <div className="hero mt-4 text-light d-flex flex-column align-content-center ms-5 mx-5">
                 <div className="d-flex" style={{ width: "1500px" }}>
                     <div className="d-flex">
                         <h3 className="fw-bold">List Film</h3>
@@ -47,7 +47,7 @@ function Listfilm(props) {
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                    <div className="d-flex col-2" style={{ marginLeft: "770px" }}>
+                    <div className="d-flex col-2" style={{ marginLeft: "980px" }}>
                         <Button as={Link} to="/addfilm" variant="danger">
                             Add Film
                         </Button>

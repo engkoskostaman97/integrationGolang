@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Addfilm from "./component/addfilm";
 import TvseriesPage from './pages/TvseriesPage'
-import MoviesPage from './pages/MoviesPage'
+import LayoutAdmin from "./widgets/layoutAdmin";
 import Paymen from './pages/paymen'
 import NotFound from './components/NotFound'
 import Home from './pages/Home';
@@ -14,6 +14,7 @@ import Admin from "./component/admin";
 import Listfilms from "./component/listfilms";
 import Listdetails from "./component/listdetails";
 import './App.css';
+import PrivateRoute from "./components/PrivateRoute"
 import { UserContext } from './context/userContext';
 import { API, setAuthToken } from './config/api';
 
@@ -23,6 +24,7 @@ if (localStorage.token) {
 
 function App() {
   let navigate = useNavigate();
+  const [isLogged, setIsLogged] = useState(false);
   const [state, dispatch] = useContext(UserContext);
   // console.clear();
   console.log("ini state", state)
@@ -82,21 +84,72 @@ function App() {
     <>
       <Routes>
         {/* router admin */}
-        <Route path='/admin' element={<Admin />} />
-        <Route path='/listfilms/:category' element={<Listfilms />} />
-        <Route path='/listfilms' element={<Listfilms />} />
-        <Route path='/addfilm' element={<Addfilm />} />
-        <Route path='/listdetails/:id' element={<Listdetails />} />
+
+        <Route
+          path="/admin"
+          element={
+            <LayoutAdmin>
+              <Admin />
+            </LayoutAdmin>
+          }
+        />
+
+        <Route path='/listfilms/:category' element={
+          <PrivateRoute>
+            <Listfilms />
+          </PrivateRoute>}
+        />
+        <Route path='/listfilms' element={
+          <PrivateRoute>
+            <Listfilms />
+          </PrivateRoute>}
+        />
+        <Route path='/addfilm' element={
+          <PrivateRoute>
+            <Addfilm />
+          </PrivateRoute>}
+        />
+        <Route path='/listdetails/:id' element={
+          <PrivateRoute>
+            <Listdetails />
+          </PrivateRoute>}
+        />
         {/* router user */}
         <Route path='/' element={<Home />} />
-        <Route path="/tvshow" element={<TvseriesPage />} />
-        <Route path="/movies" element={<Movies />} />
-        <Route path="/tvshows" element={<Tvshow />} />
-        <Route path="/movies" element={<MoviesPage />} />
-        <Route path="/profiles" element={<Profiles />} />
-        <Route path="/paymen" element={<Paymen />} />
-        <Route path="/detailfilm/:id" element={<Detailfilm />} />
+
+
+        <Route path="/tvshow" element={
+          <PrivateRoute>
+            <TvseriesPage />
+          </PrivateRoute>}
+        />
+        <Route path="/movies" element={
+          <PrivateRoute>
+            <Movies />
+          </PrivateRoute>}
+        />
+        <Route path="/tvshows" element={
+          <PrivateRoute>
+            <Tvshow />
+          </PrivateRoute>}
+        />
+        <Route path="/profiles" element={
+          <PrivateRoute>
+            <Profiles />
+          </PrivateRoute>}
+        />
+        <Route path="/paymen" element={
+          <PrivateRoute>
+            <Paymen />
+          </PrivateRoute>}
+        />
+        <Route path="/detailfilm/:id" element={
+          <PrivateRoute>
+            <Detailfilm />
+          </PrivateRoute>}
+        />
         <Route path="*" element={<NotFound />} />
+
       </Routes>
 
     </>

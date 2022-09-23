@@ -29,7 +29,7 @@ function List() {
                                 <tr className="text-danger">
                                     <th>No</th>
                                     <th>Users</th>
-                                    <th>Bukti Transfer</th>
+                                    <th>Email</th>
                                     <th>Remaining Active</th>
                                     <th>Status User</th>
                                     <th>Status Payment</th>
@@ -43,7 +43,7 @@ function List() {
 
                                             <td>{item.id}</td>
                                             <td>{item.userId.fullname}</td>
-                                            <td>{item.price
+                                            <td>{item.userId.email
                                             }</td>
                                             <td>30 /Hari</td>
                                             <td
@@ -63,7 +63,7 @@ function List() {
                                             <td
                                                 className={
                                                     item.status !== "" &&
-                                                        item.status !== "Pending" &&
+                                                        item.status !== "success" &&
                                                         item.status !== "pending"
                                                         ? "text-success fw-bold"
                                                         : "text-warning fw-bold"
