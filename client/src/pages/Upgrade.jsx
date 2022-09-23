@@ -65,12 +65,12 @@ function Upgrade() {
         onSuccess: function (result) {
           /* You may add your own implementation here */
           console.log(result);
-          Navigate("/profile");
+          Navigate("/profiles");
         },
         onPending: function (result) {
           /* You may add your own implementation here */
           console.log(result);
-          Navigate("/profile");
+          Navigate("/paymen");
         },
         onError: function (result) {
           /* You may add your own implementation here */

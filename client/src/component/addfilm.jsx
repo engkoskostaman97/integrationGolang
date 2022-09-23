@@ -51,21 +51,21 @@ function Addfilm() {
     };
 
     const handleChangeCategoryId = (e) => {
-      const id = e.target.value;
-      const checked = e.target.checked;
+        const id = e.target.value;
+        const checked = e.target.checked;
 
-      if (checked) {
-        // Save category id if checked
-        setCategoryId([...categoryId, parseInt(id)]);
-      } else {
-        // Delete category id from variable if unchecked
-        let newCategoryId = categoryId.filter((categoryIdItem) => {
-          return categoryIdItem != id;
-        });
-        setCategoryId(newCategoryId);
-      }
+        if (checked) {
+            // Save category id if checked
+            setCategoryId([...categoryId, parseInt(id)]);
+        } else {
+            // Delete category id from variable if unchecked
+            let newCategoryId = categoryId.filter((categoryIdItem) => {
+                return categoryIdItem != id;
+            });
+            setCategoryId(newCategoryId);
+        }
     };
-      console.log(setCategoryId);
+    console.log(setCategoryId);
     const handleChange = (e) => {
         setForm({
             ...form,
@@ -225,9 +225,10 @@ function Addfilm() {
                                 onChange={handleChange}
                                 name="category_id"
                             >
-                                <option disabled>Category</option>
-                                <option value="1">TV Series</option>
-                                <option value="2">Movies</option>
+                                <option value="">Category</option>
+                                {categories.map((item) => (
+                                    <option value={item.id}>{item.name}</option>
+                                ))}
                             </select>
                         </div>
                         <div className="col-10 d-flex justify-content-center input-group-lg">
@@ -302,7 +303,7 @@ function Addfilm() {
                             />
                         </div>
 
-                     
+
                         <div className="col-10 d-flex justify-content-end">
                             <button
                                 class="btn btn-danger float-md-end btn-lg  d-grid gap-2 col-2 "

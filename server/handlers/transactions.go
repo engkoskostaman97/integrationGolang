@@ -250,7 +250,7 @@ func (h *handlerTransaction) Notification(w http.ResponseWriter, r *http.Request
 
 	transactionStatus := notificationPayload["transaction_status"].(string)
 	fraudStatus := notificationPayload["fraud_status"].(string)
-	orderId := notificationPayload["order_id"].(string)
+	orderId := notificationPayload[""].(string)
 
 	transaction, _ := h.TransactionRepository.GetOneTransaction(orderId)
 
